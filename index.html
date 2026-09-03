@@ -732,46 +732,29 @@ const APP_CONFIG = {
             images: {
                 logo: "https://xiehouma.com/assets/logo_108.3d12caea.png",
                 beianIcon: "assets/images/beian-icon.png",
-                // 轮播图列表（补全 .jpg 后缀）
+                // 轮播图列表
                 carousel: [
                     "4933c4a1783b45d08779c9cab6951cb6.jpg",
                     "4933c4a1783b45d08779c9cab6951cb6 (1).jpg",
                     "4933c4a1783b45d08779c9cab6951cb6 (2).jpg",
                     "4933c4a1783b45d08779c9cab6951cb6 (3).jpg"
                 ],
-                // 轮播图片加载失败时的后备图（补全 .png 后缀）
+                // 轮播图片加载失败时的后备图（按最新上传格式更新）
                 carouselFallbacks: [
-                    "Snipaste_2026-09-03_22-17-28.png",
-                    "Snipaste_2026-09-03_22-17-39.png",
-                    "Snipaste_2026-09-03_22-17-47.png",
+                    "Snipaste_2026-09-03_22-17-28.webp",
+                    "Snipaste_2026-09-03_22-17-39.avif",
+                    "Snipaste_2026-09-03_22-17-47.jpg",
                     "Snipaste_2026-09-03_22-17-52.png"
                 ],
-                // 核心功能展现图（补全 .png 后缀）
+                // 核心功能展现图（按最新上传格式更新）
                 features: {
-                    card1: "Snipaste_2026-09-03_22-17-28.png",
-                    card2: "Snipaste_2026-09-03_22-17-39.png",
-                    card3: "Snipaste_2026-09-03_22-17-47.png",
+                    card1: "Snipaste_2026-09-03_22-17-28.webp",
+                    card2: "Snipaste_2026-09-03_22-17-39.avif",
+                    card3: "Snipaste_2026-09-03_22-17-47.jpg",
                     card4: "Snipaste_2026-09-03_22-17-52.png"
                 }
             },
             // ...其余配置保持不变
-            // 超链接与客户端下载路径配置
-            links: {
-                webApp: "#",
-                downloads: {
-                    ios: "javascript:void(0);",
-                    androidStore: "javascript:void(0);",
-                    androidApk: "javascript:void(0);",
-                    windows: "javascript:void(0);"
-                },
-                footer: {
-                    email: "mailto:wanweishidaihulian@163.com",
-                    icp: "https://beian.miit.gov.cn/",
-                    gongan: "http://www.beian.gov.cn/",
-                    privacy: "javascript:void(0);",
-                    agreement: "javascript:void(0);"
-                }
-            }
         };
 
         // 绑定/渲染配置文件数据到 DOM
