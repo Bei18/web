@@ -484,7 +484,7 @@
                 <div class="device-screen" id="drag-container">
                     <div class="carousel" data-carousel="" aria-label="功能截图轮播">
                         <div class="carousel-track" id="carousel-track">
-                            </div>
+                        </div>
 
                         <div class="carousel-dots" id="carousel-dots" aria-label="轮播分页">
                             <button type="button" class="carousel-dot" aria-label="第 1 张" aria-current="true" onclick="goToSlide(0)"></button>
@@ -727,8 +727,8 @@
         /* =========================================================================
          * 统一资源与配置项 (图片、下载地址、页面超链接集中在此维护)
          * ========================================================================= */
-const APP_CONFIG = {
-            // 图片资源统一配置
+        const APP_CONFIG = {
+            // 1. 图片资源统一配置
             images: {
                 logo: "https://xiehouma.com/assets/logo_108.3d12caea.png",
                 beianIcon: "assets/images/beian-icon.png",
@@ -739,14 +739,14 @@ const APP_CONFIG = {
                     "4933c4a1783b45d08779c9cab6951cb6 (2).jpg",
                     "4933c4a1783b45d08779c9cab6951cb6 (3).jpg"
                 ],
-                // 轮播图片加载失败时的后备图（按最新上传格式更新）
+                // 轮播图片加载失败时的后备图
                 carouselFallbacks: [
                     "Snipaste_2026-09-03_22-17-28.webp",
                     "Snipaste_2026-09-03_22-17-39.avif",
                     "Snipaste_2026-09-03_22-17-47.jpg",
                     "Snipaste_2026-09-03_22-17-52.png"
                 ],
-                // 核心功能展现图（按最新上传格式更新）
+                // 核心功能展现图
                 features: {
                     card1: "Snipaste_2026-09-03_22-17-28.webp",
                     card2: "Snipaste_2026-09-03_22-17-39.avif",
@@ -754,47 +754,85 @@ const APP_CONFIG = {
                     card4: "Snipaste_2026-09-03_22-17-52.png"
                 }
             },
-            // ...其余配置保持不变
+            // 2. 超链接配置（补全链接对象以防止脚本因 TypeError 中断）
+            links: {
+                webApp: "javascript:void(0);",
+                downloads: {
+                    ios: "javascript:void(0);",
+                    androidStore: "javascript:void(0);",
+                    androidApk: "javascript:void(0);",
+                    windows: "javascript:void(0);"
+                },
+                footer: {
+                    email: "mailto:wanweishidaihulian@163.com",
+                    icp: "https://beian.miit.gov.cn/",
+                    gongan: "javascript:void(0);",
+                    privacy: "javascript:void(0);",
+                    agreement: "javascript:void(0);"
+                }
+            }
         };
 
         // 绑定/渲染配置文件数据到 DOM
         function renderAssetsAndLinks() {
             // 绑定 Logo
-            document.getElementById('header-logo').src = APP_CONFIG.images.logo;
+            const headerLogo = document.getElementById('header-logo');
+            if (headerLogo) headerLogo.src = APP_CONFIG.images.logo;
 
             // 绑定网页版按钮
-            document.getElementById('btn-web-app').href = APP_CONFIG.links.webApp;
+            const btnWebApp = document.getElementById('btn-web-app');
+            if (btnWebApp) btnWebApp.href = APP_CONFIG.links.webApp;
 
             // 绑定轮播图
             const carouselTrack = document.getElementById('carousel-track');
-            carouselTrack.innerHTML = APP_CONFIG.images.carousel.map((src, index) => `
-                <div class="carousel-slide">
-                    <img src="${src}" alt="功能截图 ${index + 1}" onerror="this.src='${APP_CONFIG.images.carouselFallbacks[index]}'">
-                </div>
-            `).join('');
+            if (carouselTrack) {
+                carouselTrack.innerHTML = APP_CONFIG.images.carousel.map((src, index) => `
+                    <div class="carousel-slide">
+                        <img src="${src}" alt="功能截图 ${index + 1}" onerror="this.src='${APP_CONFIG.images.carouselFallbacks[index]}'">
+                    </div>
+                `).join('');
+            }
 
             // 绑定核心功能展示图
-            document.getElementById('img-feature-1').src = APP_CONFIG.images.features.card1;
-            document.getElementById('img-feature-2').src = APP_CONFIG.images.features.card2;
-            document.getElementById('img-feature-3').src = APP_CONFIG.images.features.card3;
-            document.getElementById('img-feature-4').src = APP_CONFIG.images.features.card4;
+            const img1 = document.getElementById('img-feature-1');
+            const img2 = document.getElementById('img-feature-2');
+            const img3 = document.getElementById('img-feature-3');
+            const img4 = document.getElementById('img-feature-4');
+            
+            if (img1) img1.src = APP_CONFIG.images.features.card1;
+            if (img2) img2.src = APP_CONFIG.images.features.card2;
+            if (img3) img3.src = APP_CONFIG.images.features.card3;
+            if (img4) img4.src = APP_CONFIG.images.features.card4;
 
             // 绑定下载链接
-            document.getElementById('link-ios').href = APP_CONFIG.links.downloads.ios;
-            document.getElementById('link-android-store').href = APP_CONFIG.links.downloads.androidStore;
-            document.getElementById('link-android-apk').href = APP_CONFIG.links.downloads.androidApk;
-            document.getElementById('link-windows').href = APP_CONFIG.links.downloads.windows;
+            const linkIos = document.getElementById('link-ios');
+            const linkAndroidStore = document.getElementById('link-android-store');
+            const linkAndroidApk = document.getElementById('link-android-apk');
+            const linkWin = document.getElementById('link-windows');
+            
+            if (linkIos) linkIos.href = APP_CONFIG.links.downloads.ios;
+            if (linkAndroidStore) linkAndroidStore.href = APP_CONFIG.links.downloads.androidStore;
+            if (linkAndroidApk) linkAndroidApk.href = APP_CONFIG.links.downloads.androidApk;
+            if (linkWin) linkWin.href = APP_CONFIG.links.downloads.windows;
 
             // 绑定 Footer 备案与文本链接
-            document.getElementById('footer-email').href = APP_CONFIG.links.footer.email;
-            document.getElementById('link-icp').href = APP_CONFIG.links.footer.icp;
-            document.getElementById('link-gongan').href = APP_CONFIG.links.footer.gongan;
-            document.getElementById('link-privacy').href = APP_CONFIG.links.footer.privacy;
-            document.getElementById('link-agreement').href = APP_CONFIG.links.footer.agreement;
+            const footerEmail = document.getElementById('footer-email');
+            const linkIcp = document.getElementById('link-icp');
+            const linkGongan = document.getElementById('link-gongan');
+            const linkPrivacy = document.getElementById('link-privacy');
+            const linkAgreement = document.getElementById('link-agreement');
+
+            if (footerEmail) footerEmail.href = APP_CONFIG.links.footer.email;
+            if (linkIcp) linkIcp.href = APP_CONFIG.links.footer.icp;
+            if (linkGongan) linkGongan.href = APP_CONFIG.links.footer.gongan;
+            if (linkPrivacy) linkPrivacy.href = APP_CONFIG.links.footer.privacy;
+            if (linkAgreement) linkAgreement.href = APP_CONFIG.links.footer.agreement;
 
             const beianImg = document.getElementById('img-beian-icon');
-            beianImg.src = APP_CONFIG.images.beianIcon;
-            beianImg.onerror = () => { beianImg.style.display = 'none'; };
+            if (beianImg) {
+                beianImg.src = APP_CONFIG.images.beianIcon;
+                beianImg.onerror = () => { beianImg.style.display = 'none'; };
+            }
         }
 
         renderAssetsAndLinks();
@@ -813,9 +851,11 @@ const APP_CONFIG = {
 
         function goToSlide(index) {
             currentSlide = Math.max(0, Math.min(index, totalSlides - 1));
-            currentTranslate = -currentSlide * dragContainer.offsetWidth;
-            prevTranslate = currentTranslate;
-            track.style.transform = `translateX(${currentTranslate}px)`;
+            if (dragContainer && track) {
+                currentTranslate = -currentSlide * dragContainer.offsetWidth;
+                prevTranslate = currentTranslate;
+                track.style.transform = `translateX(${currentTranslate}px)`;
+            }
             
             dots.forEach((dot, i) => {
                 if (i === currentSlide) {
@@ -826,14 +866,16 @@ const APP_CONFIG = {
             });
         }
 
-        dragContainer.addEventListener('mousedown', dragStart);
-        dragContainer.addEventListener('mousemove', dragAction);
-        dragContainer.addEventListener('mouseup', dragEnd);
-        dragContainer.addEventListener('mouseleave', dragEnd);
+        if (dragContainer) {
+            dragContainer.addEventListener('mousedown', dragStart);
+            dragContainer.addEventListener('mousemove', dragAction);
+            dragContainer.addEventListener('mouseup', dragEnd);
+            dragContainer.addEventListener('mouseleave', dragEnd);
 
-        dragContainer.addEventListener('touchstart', dragStart);
-        dragContainer.addEventListener('touchmove', dragAction);
-        dragContainer.addEventListener('touchend', dragEnd);
+            dragContainer.addEventListener('touchstart', dragStart);
+            dragContainer.addEventListener('touchmove', dragAction);
+            dragContainer.addEventListener('touchend', dragEnd);
+        }
 
         function getPositionX(event) {
             return event.type.includes('mouse') ? event.clientX : event.touches[0].clientX;
@@ -842,7 +884,7 @@ const APP_CONFIG = {
         function dragStart(event) {
             isDragging = true;
             startX = getPositionX(event);
-            track.style.transition = 'none';
+            if (track) track.style.transition = 'none';
         }
 
         function dragAction(event) {
@@ -850,13 +892,13 @@ const APP_CONFIG = {
             const currentPosition = getPositionX(event);
             const diff = currentPosition - startX;
             currentTranslate = prevTranslate + diff;
-            track.style.transform = `translateX(${currentTranslate}px)`;
+            if (track) track.style.transform = `translateX(${currentTranslate}px)`;
         }
 
         function dragEnd() {
             if (!isDragging) return;
             isDragging = false;
-            track.style.transition = 'transform 0.3s ease-out';
+            if (track) track.style.transition = 'transform 0.3s ease-out';
             const movedBy = currentTranslate - prevTranslate;
 
             if (movedBy < -50 && currentSlide < totalSlides - 1) {
@@ -869,16 +911,19 @@ const APP_CONFIG = {
 
         // 2. 文字逐字渐亮显现效果
         const revealTextEl = document.getElementById('reveal-text');
-        const rawText = revealTextEl.textContent.trim();
-        revealTextEl.innerHTML = rawText
-            .split('')
-            .map(char => `<span class="reveal-word">${char}</span>`)
-            .join('');
+        if (revealTextEl) {
+            const rawText = revealTextEl.textContent.trim();
+            revealTextEl.innerHTML = rawText
+                .split('')
+                .map(char => `<span class="reveal-word">${char}</span>`)
+                .join('');
+        }
 
         const words = document.querySelectorAll('.reveal-word');
         const revealSection = document.getElementById('privacy-section');
 
         function updateTextReveal() {
+            if (!revealSection || !words.length) return;
             const rect = revealSection.getBoundingClientRect();
             const windowHeight = window.innerHeight;
 
