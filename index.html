@@ -1,260 +1,981 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>应用展示</title>
+    <title>邂逅码官网</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#10b981', // 品牌主色调整为绿色系
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        .zz-header {
+            position: sticky;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+            transition: all 0.3s ease;
         }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f5f5f7;
-            color: #333;
-            line-height: 1.5;
-        }
-
-        .header {
+        .zz-header-inner {
+            max-width: 88rem;
+            margin: 0 auto;
+            padding: 0.85rem 1.5rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 24px;
-            background: #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
-
-        .logo {
-            height: 40px;
+        .zz-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+        .zz-logo img {
+            width: 32px;
+            height: 32px;
             object-fit: contain;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 24px;
+        .zz-logo-text {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 0.05em;
         }
-
-        /* 轮播图区域自适应容器 */
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            height: 400px; /* 固定高度容器 */
-            background-color: #1e1e1e; /* 暗色背景凸显自适应图片 */
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-            margin-bottom: 32px;
-        }
-
-        .carousel-slide {
-            width: 100%;
-            height: 100%;
+        .zz-nav {
             display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .zz-nav a {
+            color: #64748b;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            padding: 0.4rem 0.75rem;
+            border-radius: 0.375rem;
+        }
+        .zz-nav a:hover, .zz-nav a.is-active {
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.06);
+        }
+        .zz-btn {
+            padding: 0.5rem 1.25rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border-radius: 9999px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
         }
+        .zz-btn--primary {
+            background-color: #10b981;
+            color: #fff;
+        }
+        .zz-btn--primary:hover {
+            background-color: #059669;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
 
-        /* 核心：自适应完整显示图片 */
+        @keyframes textGradient {
+            0% { background-position: 0% center; }
+            50% { background-position: 100% center; }
+            100% { background-position: 0% center; }
+        }
+        .gradient-text-anim {
+            background-image: linear-gradient(120deg, #1e293b 0%, #10b981 50%, #1e293b 100%);
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textGradient 6s ease infinite;
+        }
+
+        .border-glow-card {
+            position: relative;
+            padding: 1px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(56, 189, 248, 0.3), rgba(226, 232, 240, 0.8));
+            box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.08);
+            transition: all 0.3s ease;
+        }
+        .border-glow-card:hover {
+            box-shadow: 0 20px 40px -12px rgba(16, 185, 129, 0.18);
+            transform: translateY(-2px);
+        }
+        .border-glow-inner {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 4px;
+        }
+
+        .reveal-word {
+            color: #cbd5e1;
+            transition: color 0.4s ease, font-weight 0.4s ease;
+        }
+        .reveal-word.active {
+            color: #0f172a;
+            font-weight: 600;
+        }
+
+        .nav-item {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+        }
+        .nav-item.active {
+            border-color: #10b981;
+            background-color: #ecfdf5;
+            color: #10b981;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+        }
+        .nav-item:not(.active) {
+            border-color: #e2e8f0;
+            background-color: #ffffff;
+            color: #64748b;
+            font-weight: 500;
+        }
+        .nav-item:not(.active):hover {
+            border-color: #cbd5e1;
+            color: #1e293b;
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .dl-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 1.25rem;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+        }
+        .dl-card:hover {
+            border-color: #10b981;
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.12);
+            transform: translateY(-4px);
+        }
+        .dl-icon {
+            width: 64px;
+            height: 64px;
+            color: #10b981;
+            margin-bottom: 1.5rem;
+        }
+
+        .device {
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            border: 10px solid #0f172a;
+            border-radius: 36px;
+            background: #ffffff;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12), 0 0 30px rgba(16, 185, 129, 0.08);
+            position: relative;
+            overflow: hidden;
+            user-select: none;
+        }
+        .device::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 18px;
+            background: #0f172a;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            z-index: 20;
+        }
+        .device-screen {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 9 / 19.5;
+            overflow: hidden;
+            border-radius: 26px;
+            cursor: grab;
+        }
+        .device-screen:active {
+            cursor: grabbing;
+        }
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .carousel-track {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s ease-out;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
         .carousel-slide img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* 关键：完整显示，按比例缩放，不被裁剪 */
-            display: block;
+            object-fit: cover;
+        }
+        .carousel-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            z-index: 10;
+        }
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(15, 23, 42, 0.2);
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .carousel-dot[aria-current="true"] {
+            background: #10b981;
+            width: 20px;
+            border-radius: 4px;
         }
 
-        /* 功能卡片网格布局 */
+        .features {
+            padding: 5rem 1.5rem;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+        .features .container {
+            max-width: 88rem;
+            margin: 0 auto;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-top: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .section-desc {
+            color: #64748b;
+            font-size: 1.125rem;
+        }
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
-
-        .card {
-            background: #fff;
-            border-radius: 12px;
-            border: 1px solid #e5e5e5;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        .feature-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 1.25rem;
+            padding: 2.5rem 2rem;
+            text-align: left;
+            transition: all 0.3s ease;
         }
-
-        .card:hover {
+        .feature-card:hover {
+            border-color: #10b981;
             transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.08);
         }
-
-        /* 功能卡片图片容器 */
-        .card-image-wrapper {
-            width: 100%;
-            height: 220px; /* 统一卡片图片高度 */
-            background-color: #fafafa;
-            border-radius: 8px;
-            border: 1px solid #eee;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 12px;
-            padding: 8px;
+        .feature-card-icon {
+            margin-bottom: 1.5rem;
         }
-
-        /* 卡片图片自适应 */
-        .card-image-wrapper img {
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
-            height: auto;
-            object-fit: contain; /* 确保不规则尺寸图片完全展现 */
+        .feature-card-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.75rem;
         }
-
-        .card-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-top: 8px;
-            color: #1d1d1f;
+        .feature-card-desc {
+            color: #64748b;
+            line-height: 1.625;
+            font-size: 0.95rem;
         }
 
         .footer {
-            margin-top: 48px;
-            padding: 24px;
-            text-align: center;
-            font-size: 14px;
-            color: #86868b;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            background-color: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            padding: 2.5rem 1.5rem;
+            color: #64748b;
+            font-size: 0.875rem;
         }
-
-        .beian-icon {
+        .footer-grid {
+            max-width: 88rem;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        @media (min-width: 768px) {
+            .footer-grid {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+        .beian {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            font-size: 13px;
+        }
+        .beian a {
+            color: #64748b;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .beian a:hover {
+            color: #10b981;
+        }
+        .beian img {
             width: 16px;
             height: 16px;
-            object-fit: contain;
+        }
+        .footer-links {
+            display: flex;
+            gap: 18px;
+        }
+        .footer-links a {
+            color: #64748b;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .footer-links a:hover {
+            color: #10b981;
         }
     </style>
 </head>
-<body>
+<body class="bg-white text-slate-800 font-sans antialiased selection:bg-emerald-500 selection:text-white relative">
 
-    <header class="header">
-        <img id="app-logo" src="" alt="Logo" class="logo">
+    <header class="zz-header" id="zz-header">
+        <div class="zz-header-inner">
+            <a href="#" class="zz-logo">
+                <img id="header-logo" src="" alt="邂逅码 Logo">
+                <span class="zz-logo-text text-emerald-500">邂逅码</span>
+            </a>
+            <nav class="zz-nav hidden md:flex" aria-label="主导航">
+                <a href="#privacy-section" data-nav="privacy-section">私密安全</a>
+                <a href="#about" data-nav="about">关于产品</a>
+                <a href="#features" data-nav="features">核心功能</a>
+                <a href="#download" data-nav="download">下载产品</a>
+            </nav>
+            <div class="zz-header-actions">
+                <a id="btn-web-app" href="javascript:void(0);" class="zz-btn zz-btn--primary">打开网页版</a>
+            </div>
+        </div>
     </header>
 
-    <div class="container">
-        <!-- 轮播展示区 -->
-        <div class="carousel-container">
-            <div class="carousel-slide">
-                <img id="carousel-img" src="" alt="Carousel Image">
+    <section id="top" class="relative min-h-[calc(100vh-65px)] bg-gradient-to-b from-emerald-50/50 via-white to-white text-slate-900 overflow-hidden flex flex-col justify-between">
+        
+        <div class="relative z-20 flex-1 flex flex-col justify-between py-12">
+            <div class="px-6 md:px-12 lg:px-16 flex flex-col items-center justify-center text-center my-auto">
+                <div class="w-full max-w-4xl flex flex-col items-center">
+                    <span class="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-8 inline-flex flex-col items-center leading-tight">
+                        <span class="inline-block mb-3">
+                            <div class="text-5xl md:text-6xl lg:text-7xl font-black bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 via-green-600 to-teal-500 tracking-tight">
+                                邂逅码
+                            </div>
+                        </span>
+                        <span class="gradient-text-anim"> </span>
+                    </span>
+
+                    <p class="text-base md:text-lg text-slate-600 mb-8 max-w-2xl leading-relaxed">
+                        以物联网技术和共享经济为基础，让万物融入人类的社交
+                    </p>
+
+                    <div class="w-full">
+                        <div class="flex flex-wrap gap-4 justify-center items-center max-w-3xl mx-auto">
+                            <div class="border-glow-card w-full sm:w-auto">
+                                <div class="border-glow-inner">
+                                    <a href="#download" class="inline-flex items-center gap-2 text-slate-800 text-sm md:text-base font-semibold px-8 py-3 rounded-xl transition-all duration-200 justify-center w-full sm:w-auto hover:text-emerald-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path></svg>
+                                        下载
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="border-glow-card w-full sm:w-auto">
+                                <div class="border-glow-inner">
+                                    <a href="#about" class="inline-flex items-center gap-2 text-slate-800 text-sm md:text-base font-semibold px-8 py-3 rounded-xl transition-all duration-200 justify-center w-full sm:w-auto hover:text-emerald-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                        功能
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
             </div>
+
+            <div class="pt-4 text-center animate-bounce text-slate-400">
+                <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <div class="bg-white text-slate-800 border-t border-slate-100">
+      <section id="privacy-section" class="relative z-10 bg-slate-50/50 rounded-t-[25px] pt-12 md:pt-16 pb-16 md:pb-24 px-6 md:px-12 lg:px-16 scroll-mt-20">
+        <div class="max-w-[88rem] mx-auto flex items-center gap-1.5 mb-16">
+          <div class="w-2 h-2 rounded-full bg-emerald-500/50 shrink-0"></div>
+          <div class="flex-1 h-[2px] bg-slate-200"></div>
+          <div class="w-2 h-2 rounded-full bg-emerald-500/50 shrink-0"></div>
         </div>
 
-        <!-- 功能卡片展示区 -->
-        <div class="features-grid">
-            <div class="card">
-                <div class="card-image-wrapper">
-                    <img id="feature-card1" src="" alt="Feature 1">
-                </div>
-                <div class="card-title">功能特点 1</div>
+        <div class="max-w-[88rem] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          
+          <div class="lg:col-span-7 flex flex-col gap-8">
+            <div class="flex items-center gap-4 shrink-0">
+              <div class="text-emerald-500">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><rect width="8" height="5" x="8" y="7" rx="1"/><path d="M10 7V5a2 2 0 1 1 4 0v2"/></svg>
+              </div>
+              <div class="text-xs uppercase tracking-widest font-semibold text-slate-500 leading-tight">
+                私密安全 /<br>邂逅码
+              </div>
             </div>
-            <div class="card">
-                <div class="card-image-wrapper">
-                    <img id="feature-card2" src="" alt="Feature 2">
+
+            <p id="reveal-text" class="text-2xl sm:text-3xl md:text-4xl lg:text-[38px] leading-[1.5] font-normal">
+              邂逅码，以物联网技术和共享经济为基础，让万物融入人类的社交，为万物赋予社交的价值，以物联网，WEB3.0技术等为基础，打造一个人类与万物数据共享的去中心化社交与商业平台。
+            </p>
+          </div>
+
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="device">
+                <div class="device-screen" id="drag-container">
+                    <div class="carousel" data-carousel="" aria-label="功能截图轮播">
+                        <div class="carousel-track" id="carousel-track">
+                            </div>
+
+                        <div class="carousel-dots" id="carousel-dots" aria-label="轮播分页">
+                            <button type="button" class="carousel-dot" aria-label="第 1 张" aria-current="true" onclick="goToSlide(0)"></button>
+                            <button type="button" class="carousel-dot" aria-label="第 2 张" onclick="goToSlide(1)"></button>
+                            <button type="button" class="carousel-dot" aria-label="第 3 张" onclick="goToSlide(2)"></button>
+                            <button type="button" class="carousel-dot" aria-label="第 4 张" onclick="goToSlide(3)"></button>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-title">功能特点 2</div>
             </div>
-            <div class="card">
-                <div class="card-image-wrapper">
-                    <img id="feature-card3" src="" alt="Feature 3">
-                </div>
-                <div class="card-title">功能特点 3</div>
-            </div>
-            <div class="card">
-                <div class="card-image-wrapper">
-                    <img id="feature-card4" src="" alt="Feature 4">
-                </div>
-                <div class="card-title">功能特点 4</div>
-            </div>
+          </div>
+
         </div>
+      </section>
+
+      <section id="about" class="relative px-6 md:px-12 lg:px-16 py-20 md:py-32 bg-white scroll-mt-20">
+        <div class="max-w-[88rem] mx-auto lg:grid lg:grid-cols-[1fr_400px] xl:grid-cols-[1fr_460px] gap-24 xl:gap-48">
+          
+          <div class="flex flex-col gap-16 lg:gap-32">
+            <div id="card-1" class="feature-card-item transition-all duration-700 ease-out scroll-mt-32">
+              <div class="border-glow-card rounded-3xl p-6 md:p-10 border border-slate-200/80 hover:border-emerald-500/50 transition-all duration-300 shadow-lg">
+                <div class="flex items-center gap-4 mb-6">
+                  <div class="text-emerald-500 shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+                  </div>
+                  <h3 class="text-slate-900 text-xl md:text-2xl font-bold">端到端加密消息</h3>
+                </div>
+                <div class="aspect-video rounded-2xl overflow-hidden bg-slate-100 mb-6 flex items-center justify-center border border-slate-200">
+                  <img id="img-feature-1" alt="端到端加密消息" class="object-cover w-full h-full" src="">
+                </div>
+                <p class="text-slate-600 font-medium text-sm md:text-base leading-relaxed mb-4">平台采用顶尖的前向安全加密协议，全方位保障您的文字、语音和媒体文件信息隐私。</p>
+              </div>
+            </div>
+
+            <div id="card-2" class="feature-card-item transition-all duration-700 ease-out scroll-mt-32">
+              <div class="border-glow-card rounded-3xl p-6 md:p-10 border border-slate-200/80 hover:border-emerald-500/50 transition-all duration-300 shadow-lg">
+                <div class="flex items-center gap-4 mb-6">
+                  <div class="text-emerald-500 shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10"><polygon points="23 7 16 12 23 17 23 7"/><rect width="15" height="14" x="1" y="5" rx="2" ry="2"/></svg>
+                  </div>
+                  <h3 class="text-slate-900 text-xl md:text-2xl font-bold">高清实时语音视频</h3>
+                </div>
+                <div class="aspect-video rounded-2xl overflow-hidden bg-slate-100 mb-6 flex items-center justify-center border border-slate-200">
+                  <img id="img-feature-2" alt="高清实时语音视频" class="object-cover w-full h-full" src="">
+                </div>
+                <p class="text-slate-600 font-medium text-sm md:text-base leading-relaxed mb-4">采用自研 RTC 音视频传输算法，在弱网环境下也能保持极低延迟与清澈音质。</p>
+              </div>
+            </div>
+
+            <div id="card-3" class="feature-card-item transition-all duration-700 ease-out scroll-mt-32">
+              <div class="border-glow-card rounded-3xl p-6 md:p-10 border border-slate-200/80 hover:border-emerald-500/50 transition-all duration-300 shadow-lg">
+                <div class="flex items-center gap-4 mb-6">
+                  <div class="text-emerald-500 shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+                  </div>
+                  <h3 class="text-slate-900 text-xl md:text-2xl font-bold">跨区无障碍沟通</h3>
+                </div>
+                <div class="aspect-video rounded-2xl overflow-hidden bg-slate-100 mb-6 flex items-center justify-center border border-slate-200">
+                  <img id="img-feature-3" alt="跨区无障碍沟通" class="object-cover w-full h-full" src="">
+                </div>
+                <p class="text-slate-600 font-medium text-sm md:text-base leading-relaxed mb-4">内置 AI 实时双向翻译引擎，轻松打破语言与地域壁垒。</p>
+              </div>
+            </div>
+
+            <div id="card-4" class="feature-card-item transition-all duration-700 ease-out scroll-mt-32">
+              <div class="border-glow-card rounded-3xl p-6 md:p-10 border border-slate-200/80 hover:border-emerald-500/50 transition-all duration-300 shadow-lg">
+                <div class="flex items-center gap-4 mb-6">
+                  <div class="text-emerald-500 shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
+                  </div>
+                  <h3 class="text-slate-900 text-xl md:text-2xl font-bold">多重隐私防护体系</h3>
+                </div>
+                <div class="aspect-video rounded-2xl overflow-hidden bg-slate-100 mb-6 flex items-center justify-center border border-slate-200">
+                  <img id="img-feature-4" alt="多重隐私防护体系" class="object-cover w-full h-full" src="">
+                </div>
+                <p class="text-slate-600 font-medium text-sm md:text-base leading-relaxed mb-4">全面贯彻零信任安全架构，多维度防止信息截获与泄露。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="order-first lg:order-last mb-12 lg:mb-0">
+            <div class="lg:sticky lg:top-28 lg:flex lg:flex-col lg:justify-between">
+              <div>
+                <h2 class="text-slate-900 text-3xl sm:text-4xl lg:text-[42px] leading-[1.2] font-bold mb-8">什么是“邂逅码”？</h2>
+                <div class="flex flex-col gap-3">
+                  <button data-nav="card-1" onclick="scrollToCard('card-1')" class="nav-item text-left px-5 py-4 rounded-xl text-base active">端到端加密消息</button>
+                  <button data-nav="card-2" onclick="scrollToCard('card-2')" class="nav-item text-left px-5 py-4 rounded-xl text-base">高清实时语音视频</button>
+                  <button data-nav="card-3" onclick="scrollToCard('card-3')" class="nav-item text-left px-5 py-4 rounded-xl text-base">跨区无障碍沟通</button>
+                  <button data-nav="card-4" onclick="scrollToCard('card-4')" class="nav-item text-left px-5 py-4 rounded-xl text-base">多重隐私防护体系</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
     </div>
 
+    <section class="features min-h-screen flex items-center justify-center scroll-mt-16" id="features">
+        <div class="container w-full">
+            <div class="section-header">
+                <h2 class="section-title">让聊天回归纯粹</h2>
+                <p class="section-desc">简单好用的功能，满足你日常沟通的一切需求</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-card-icon">
+                        <svg viewBox="0 0 48 48" width="48" height="48">
+                            <circle cx="24" cy="24" r="20" fill="#e6f4ea"></circle>
+                            <path d="M24 8L12 14v10c0 8.33 5.12 16.11 12 18 6.88-1.89 12-9.67 12-18V14L24 8z" fill="#10b981"></path>
+                            <path d="M21 25l-4-4-2 2 6 6 10-10-2-2-8 8z" fill="white"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-card-title">隐私加密</h3>
+                    <p class="feature-card-desc">采用端到端加密技术，你的聊天内容只有你和对方可见。即使是我们，也无法查看你的任何消息。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-icon">
+                        <svg viewBox="0 0 48 48" width="48" height="48">
+                            <circle cx="24" cy="24" r="20" fill="#f3e5f5"></circle>
+                            <rect x="10" y="18" width="12" height="16" rx="2" fill="#8b5cf6"></rect>
+                            <rect x="26" y="14" width="14" height="20" rx="2" fill="#8b5cf6"></rect>
+                            <path d="M22 26h4" stroke="#8b5cf6" stroke-width="2"></path>
+                            <circle cx="16" cy="22" r="2" fill="white"></circle>
+                            <circle cx="33" cy="20" r="2" fill="white"></circle>
+                        </svg>
+                    </div>
+                    <h3 class="feature-card-title">多设备同步</h3>
+                    <p class="feature-card-desc">手机、电脑、平板无缝切换，消息实时同步。在手机上聊到一半，打开电脑继续，对话永不中断。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-icon">
+                        <svg viewBox="0 0 48 48" width="48" height="48">
+                            <circle cx="24" cy="24" r="20" fill="#e8f5e9"></circle>
+                            <circle cx="24" cy="20" r="8" fill="#10b981"></circle>
+                            <path d="M16 34c0-4.42 3.58-8 8-8s8 3.58 8 8" stroke="#10b981" stroke-width="4" fill="none"></path>
+                            <path d="M30 12l4-2M34 18l4 2M30 24l4 2" stroke="#10b981" stroke-width="2"></path>
+                            <circle cx="22" cy="18" r="1.5" fill="white"></circle>
+                            <circle cx="26" cy="18" r="1.5" fill="white"></circle>
+                        </svg>
+                    </div>
+                    <h3 class="feature-card-title">高清通话</h3>
+                    <p class="feature-card-desc">随时发起语音或视频通话，高清画质、智能降噪，和朋友面对面聊天，拉近彼此距离。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="min-h-screen flex items-center py-20 bg-slate-50 px-6 md:px-12 border-t border-slate-200 scroll-mt-16" id="download">
+        <div class="max-w-7xl mx-auto w-full">
+            <div class="mb-12">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2">下载</h2>
+                    <p class="text-slate-500">请选择平台下载安装：iOS / Android / Windows。</p>
+                </div>
+            </div>
+
+            <div class="download-grid">
+                <div class="card dl-card" id="dl-ios">
+                    <div class="dl-middle">
+                        <div class="dl-icon" aria-hidden="true">
+                            <svg viewBox="0 0 32 32">
+                                <path d="M20.411 5.79c0.98-1.14 1.576-2.634 1.576-4.267 0-0.183-0.007-0.364-0.022-0.542l0.002 0.023c-1.769 0.18-3.314 1.019-4.407 2.264l-0.007 0.008c-0.997 1.107-1.607 2.579-1.607 4.194 0 0.157 0.006 0.314 0.017 0.468l-0.001-0.021c0.017 0 0.037 0 0.058 0 1.774 0 3.356-0.826 4.381-2.115l0.009-0.011zM16.19 9.622c-1.185 0-3.018-1.347-4.949-1.3-2.661 0.073-4.959 1.558-6.18 3.73l-0.019 0.037c-2.646 4.592-0.682 11.375 1.898 15.108 1.266 1.817 2.759 3.861 4.739 3.798 1.899-0.081 2.612-1.233 4.917-1.233 2.288 0 2.937 1.233 4.949 1.185 2.046-0.032 3.344-1.849 4.594-3.684 0.848-1.227 1.554-2.641 2.044-4.152l0.032-0.115c-2.38-1.033-4.016-3.359-4.024-6.068v-0.001c0.023-2.406 1.304-4.507 3.216-5.68l0.029-0.017c-1.24-1.741-3.221-2.884-5.473-2.969l-0.013-0c-2.499-0.195-4.592 1.362-5.761 1.362z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="dl-bottom">
+                        <h3 class="text-lg font-bold mb-1">iOS</h3>
+                        <p class="text-sm text-slate-500 mb-4">前往 App Store 下载</p>
+                        <div class="dl-actions">
+                            <a id="link-ios" class="btn zz-btn zz-btn--primary" href="javascript:void(0);">App Store 下载</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card dl-card" id="dl-android">
+                    <div class="dl-middle">
+                        <div class="dl-icon" aria-hidden="true">
+                            <svg viewBox="0 0 32 32">
+                                <path d="M23.35 12.653l2.496-4.323c0.044-0.074 0.070-0.164 0.070-0.26 0-0.287-0.232-0.519-0.519-0.519-0.191 0-0.358 0.103-0.448 0.257l-0.001 0.002-2.527 4.377c-1.887-0.867-4.094-1.373-6.419-1.373s-4.532 0.506-6.517 1.413l0.098-0.040-2.527-4.378c-0.091-0.156-0.259-0.26-0.45-0.26-0.287 0-0.519 0.232-0.519 0.519 0 0.096 0.026 0.185 0.071 0.262l-0.001-0.002 2.496 4.323c-4.286 2.367-7.236 6.697-7.643 11.744l-0.003 0.052h29.991c-0.41-5.099-3.36-9.429-7.57-11.758l-0.076-0.038zM9.098 20.176c-0 0-0 0-0 0-0.69 0-1.249-0.559-1.249-1.249s0.559-1.249 1.249-1.249c0.69 0 1.249 0.559 1.249 1.249v0c-0.001 0.689-0.559 1.248-1.249 1.249h-0zM22.902 20.176c-0 0-0 0-0 0-0.69 0-1.249-0.559-1.249-1.249s0.559-1.249 1.249-1.249c0.69 0 1.249 0.559 1.249 1.249v0c-0.001 0.689-0.559 1.248-1.249 1.249h-0z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="dl-bottom">
+                        <h3 class="text-lg font-bold mb-1">Android</h3>
+                        <p class="text-sm text-slate-500 mb-4">前往各大应用商城下载</p>
+                        <div class="dl-actions flex gap-2">
+                            <a id="link-android-store" class="btn zz-btn zz-btn--primary" href="javascript:void(0);">应用商店</a>
+                            <a id="link-android-apk" class="btn zz-btn zz-btn--primary" href="javascript:void(0);">APK 下载</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card dl-card" id="dl-pc">
+                    <div class="dl-middle">
+                        <div class="dl-icon" aria-hidden="true">
+                            <svg viewBox="0 0 32 32">
+                                <path d="M14.687 16.75h16.309v14.246l-16.12-2.251zM1.004 16.75h12.184v11.81l-12.184-1.69zM14.687 3.44l16.309-2.436v14.246h-16.309zM1.004 5.314l12.184-1.686v11.81h-12.184z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="dl-bottom">
+                        <h3 class="text-lg font-bold mb-1">Windows</h3>
+                        <p class="text-sm text-slate-500 mb-4">官方下载</p>
+                        <div class="dl-actions">
+                            <a id="link-windows" class="btn zz-btn zz-btn--primary" href="javascript:void(0);">立即下载</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer class="footer">
-        <img id="beian-icon" class="beian-icon" src="" alt="备案图标">
-        <span>备案信息展示</span>
+        <div class="container footer-grid">
+            <div>
+                <small>© <span data-year="">2026</span> 万维时代互联科技（山东）集团有限公司 版权所有</small>
+                <div class="muted" style="margin-top: 8px; font-size: 13px;">
+                    邮箱：<a id="footer-email" href="javascript:void(0);" class="hover:text-emerald-500">wanweishidaihulian@163.com</a>
+                </div>
+                <div class="beian">
+                    <a id="link-icp" href="javascript:void(0);" target="_blank">
+                        <span>鲁ICP备2023022215号-1</span>
+                    </a>
+                    <a id="link-gongan" href="javascript:void(0);" target="_blank">
+                        <img id="img-beian-icon" src="" alt="公安备案">
+                        <span>鲁公网安备 37010102001808号</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <a id="link-privacy" href="javascript:void(0);">隐私政策</a>
+                <a id="link-agreement" href="javascript:void(0);">用户协议</a>
+            </div>
+        </div>
     </footer>
 
     <script>
-        // 配置数据（已为您修复路径后缀）
-        const APP_CONFIG = {
+        /* =========================================================================
+         * 统一资源与配置项 (图片、下载地址、页面超链接集中在此维护)
+         * ========================================================================= */
+const APP_CONFIG = {
+            // 图片资源统一配置
             images: {
                 logo: "https://xiehouma.com/assets/logo_108.3d12caea.png",
                 beianIcon: "assets/images/beian-icon.png",
+                // 轮播图列表（补全 .jpg 后缀）
                 carousel: [
                     "4933c4a1783b45d08779c9cab6951cb6.jpg",
                     "4933c4a1783b45d08779c9cab6951cb6 (1).jpg",
                     "4933c4a1783b45d08779c9cab6951cb6 (2).jpg",
                     "4933c4a1783b45d08779c9cab6951cb6 (3).jpg"
                 ],
+                // 轮播图片加载失败时的后备图（补全 .png 后缀）
                 carouselFallbacks: [
                     "Snipaste_2026-09-03_22-17-28.png",
                     "Snipaste_2026-09-03_22-17-39.png",
                     "Snipaste_2026-09-03_22-17-47.png",
                     "Snipaste_2026-09-03_22-17-52.png"
                 ],
+                // 核心功能展现图（补全 .png 后缀）
                 features: {
                     card1: "Snipaste_2026-09-03_22-17-28.png",
                     card2: "Snipaste_2026-09-03_22-17-39.png",
                     card3: "Snipaste_2026-09-03_22-17-47.png",
                     card4: "Snipaste_2026-09-03_22-17-52.png"
                 }
+            },
+            // ...其余配置保持不变
+            // 超链接与客户端下载路径配置
+            links: {
+                webApp: "#",
+                downloads: {
+                    ios: "javascript:void(0);",
+                    androidStore: "javascript:void(0);",
+                    androidApk: "javascript:void(0);",
+                    windows: "javascript:void(0);"
+                },
+                footer: {
+                    email: "mailto:wanweishidaihulian@163.com",
+                    icp: "https://beian.miit.gov.cn/",
+                    gongan: "http://www.beian.gov.cn/",
+                    privacy: "javascript:void(0);",
+                    agreement: "javascript:void(0);"
+                }
             }
         };
 
-        // 渲染与轮播逻辑
-        document.addEventListener("DOMContentLoaded", () => {
-            // 加载基础图标
-            document.getElementById("app-logo").src = APP_CONFIG.images.logo;
-            document.getElementById("beian-icon").src = APP_CONFIG.images.beianIcon;
+        // 绑定/渲染配置文件数据到 DOM
+        function renderAssetsAndLinks() {
+            // 绑定 Logo
+            document.getElementById('header-logo').src = APP_CONFIG.images.logo;
 
-            // 加载功能卡片图片（带有失败回退处理）
-            Object.keys(APP_CONFIG.images.features).forEach(key => {
-                const imgEl = document.getElementById(`feature-${key}`);
-                if (imgEl) {
-                    imgEl.src = APP_CONFIG.images.features[key];
-                    imgEl.onerror = function() {
-                        this.style.display = 'none'; // 加载失败时隐藏或设置默认图
-                    };
+            // 绑定网页版按钮
+            document.getElementById('btn-web-app').href = APP_CONFIG.links.webApp;
+
+            // 绑定轮播图
+            const carouselTrack = document.getElementById('carousel-track');
+            carouselTrack.innerHTML = APP_CONFIG.images.carousel.map((src, index) => `
+                <div class="carousel-slide">
+                    <img src="${src}" alt="功能截图 ${index + 1}" onerror="this.src='${APP_CONFIG.images.carouselFallbacks[index]}'">
+                </div>
+            `).join('');
+
+            // 绑定核心功能展示图
+            document.getElementById('img-feature-1').src = APP_CONFIG.images.features.card1;
+            document.getElementById('img-feature-2').src = APP_CONFIG.images.features.card2;
+            document.getElementById('img-feature-3').src = APP_CONFIG.images.features.card3;
+            document.getElementById('img-feature-4').src = APP_CONFIG.images.features.card4;
+
+            // 绑定下载链接
+            document.getElementById('link-ios').href = APP_CONFIG.links.downloads.ios;
+            document.getElementById('link-android-store').href = APP_CONFIG.links.downloads.androidStore;
+            document.getElementById('link-android-apk').href = APP_CONFIG.links.downloads.androidApk;
+            document.getElementById('link-windows').href = APP_CONFIG.links.downloads.windows;
+
+            // 绑定 Footer 备案与文本链接
+            document.getElementById('footer-email').href = APP_CONFIG.links.footer.email;
+            document.getElementById('link-icp').href = APP_CONFIG.links.footer.icp;
+            document.getElementById('link-gongan').href = APP_CONFIG.links.footer.gongan;
+            document.getElementById('link-privacy').href = APP_CONFIG.links.footer.privacy;
+            document.getElementById('link-agreement').href = APP_CONFIG.links.footer.agreement;
+
+            const beianImg = document.getElementById('img-beian-icon');
+            beianImg.src = APP_CONFIG.images.beianIcon;
+            beianImg.onerror = () => { beianImg.style.display = 'none'; };
+        }
+
+        renderAssetsAndLinks();
+
+        // 1. 支持触摸与鼠标拖拽（按着横拉）调节轮播图
+        let currentSlide = 0;
+        const totalSlides = APP_CONFIG.images.carousel.length;
+        const track = document.getElementById('carousel-track');
+        const dots = document.querySelectorAll('.carousel-dot');
+        const dragContainer = document.getElementById('drag-container');
+
+        let startX = 0;
+        let isDragging = false;
+        let currentTranslate = 0;
+        let prevTranslate = 0;
+
+        function goToSlide(index) {
+            currentSlide = Math.max(0, Math.min(index, totalSlides - 1));
+            currentTranslate = -currentSlide * dragContainer.offsetWidth;
+            prevTranslate = currentTranslate;
+            track.style.transform = `translateX(${currentTranslate}px)`;
+            
+            dots.forEach((dot, i) => {
+                if (i === currentSlide) {
+                    dot.setAttribute('aria-current', 'true');
+                } else {
+                    dot.removeAttribute('aria-current');
+                }
+            });
+        }
+
+        dragContainer.addEventListener('mousedown', dragStart);
+        dragContainer.addEventListener('mousemove', dragAction);
+        dragContainer.addEventListener('mouseup', dragEnd);
+        dragContainer.addEventListener('mouseleave', dragEnd);
+
+        dragContainer.addEventListener('touchstart', dragStart);
+        dragContainer.addEventListener('touchmove', dragAction);
+        dragContainer.addEventListener('touchend', dragEnd);
+
+        function getPositionX(event) {
+            return event.type.includes('mouse') ? event.clientX : event.touches[0].clientX;
+        }
+
+        function dragStart(event) {
+            isDragging = true;
+            startX = getPositionX(event);
+            track.style.transition = 'none';
+        }
+
+        function dragAction(event) {
+            if (!isDragging) return;
+            const currentPosition = getPositionX(event);
+            const diff = currentPosition - startX;
+            currentTranslate = prevTranslate + diff;
+            track.style.transform = `translateX(${currentTranslate}px)`;
+        }
+
+        function dragEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+            track.style.transition = 'transform 0.3s ease-out';
+            const movedBy = currentTranslate - prevTranslate;
+
+            if (movedBy < -50 && currentSlide < totalSlides - 1) {
+                currentSlide += 1;
+            } else if (movedBy > 50 && currentSlide > 0) {
+                currentSlide -= 1;
+            }
+            goToSlide(currentSlide);
+        }
+
+        // 2. 文字逐字渐亮显现效果
+        const revealTextEl = document.getElementById('reveal-text');
+        const rawText = revealTextEl.textContent.trim();
+        revealTextEl.innerHTML = rawText
+            .split('')
+            .map(char => `<span class="reveal-word">${char}</span>`)
+            .join('');
+
+        const words = document.querySelectorAll('.reveal-word');
+        const revealSection = document.getElementById('privacy-section');
+
+        function updateTextReveal() {
+            const rect = revealSection.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+
+            const currentProgress = (windowHeight - rect.top) / (rect.height + windowHeight);
+            const clampedProgress = Math.max(0, Math.min(1, currentProgress * 2.1));
+            const activeIndex = Math.floor(clampedProgress * words.length);
+
+            words.forEach((word, index) => {
+                if (index <= activeIndex) {
+                    word.classList.add('active');
+                } else {
+                    word.classList.remove('active');
+                }
+            });
+        }
+
+        // 3. 左侧卡片滑动时，自动切换右侧高亮菜单
+        const sideNavBtns = document.querySelectorAll('button[data-nav]');
+        const cardItems = document.querySelectorAll('.feature-card-item');
+
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    sideNavBtns.forEach(btn => {
+                        if (btn.getAttribute('data-nav') === id) {
+                            btn.classList.add('active');
+                        } else {
+                            btn.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, {
+            root: null,
+            threshold: 0.5
+        });
+
+        cardItems.forEach(card => cardObserver.observe(card));
+
+        function scrollToCard(id) {
+            const card = document.getElementById(id);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // 4. 顶栏导航高亮联动
+        const sections = document.querySelectorAll('section[id]');
+        const headerNavLinks = document.querySelectorAll('.zz-nav a');
+
+        function updateNavHighlight() {
+            let currentActiveId = '';
+            const scrollPos = window.scrollY + 120;
+
+            sections.forEach(sec => {
+                const top = sec.offsetTop;
+                const height = sec.offsetHeight;
+                if (scrollPos >= top && scrollPos < top + height) {
+                    currentActiveId = sec.getAttribute('id');
                 }
             });
 
-            // 轮播图自动播放逻辑
-            const carouselImg = document.getElementById("carousel-img");
-            let currentIndex = 0;
-            const carouselList = APP_CONFIG.images.carousel;
+            headerNavLinks.forEach(link => {
+                if (link.getAttribute('data-nav') === currentActiveId) {
+                    link.classList.add('is-active');
+                } else {
+                    link.classList.remove('is-active');
+                }
+            });
+        }
 
-            function updateCarousel() {
-                carouselImg.src = carouselList[currentIndex];
-                carouselImg.onerror = function() {
-                    // 如果主图片加载失败，尝试使用 fallback 备份图片
-                    if (APP_CONFIG.images.carouselFallbacks[currentIndex]) {
-                        this.src = APP_CONFIG.images.carouselFallbacks[currentIndex];
-                    }
-                };
-            }
-
-            // 初始化显示第一张
-            updateCarousel();
-
-            // 每 3 秒切换一次图片
-            setInterval(() => {
-                currentIndex = (currentIndex + 1) % carouselList.length;
-                updateCarousel();
-            }, 3000);
+        window.addEventListener('scroll', () => {
+            updateTextReveal();
+            updateNavHighlight();
         });
+
+        // 初始化运行
+        updateTextReveal();
+        updateNavHighlight();
     </script>
 </body>
 </html>
