@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邂逅码 - 注册</title>
+    <style>
+        :root {
+            --primary-color: #10b981;
+            --primary-hover: #059669;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: radial-gradient(var(--primary-color) 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* 顶部悬浮提示框 (Toast) */
+        .toast {
+            position: fixed;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #065f46;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            opacity: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toast.show {
+            top: 24px;
+            opacity: 1;
+        }
+
+        /* 错误状态提示框样式 */
+        .toast.error {
+            background-color: #ef4444;
+        }
+
+        /* 主容器 */
+        .register-container {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px 32px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        }
+
+        .brand-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .brand-icon {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+            margin-bottom: 12px;
+            border-radius: 12px;
+        }
+
+        .brand-title {
+            font-size: 24px;
+            color: var(--text-main);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+        }
+
+        .captcha-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* 验证码按钮：始终处于可点击状态 */
+        .btn-send-code {
+            min-width: 110px;
+            padding: 0 12px;
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-send-code:hover {
+            background-color: rgba(16, 185, 129, 0.08);
+        }
+
+        /* 倒计时中的禁用样式 */
+        .btn-send-code.counting {
+            border-color: var(--border-color);
+            color: #9ca3af;
+            background-color: #f9fafb;
+            cursor: not-allowed;
+        }
+
+        /* Loading 转圈动画 */
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(16, 185, 129, 0.2);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+            margin-top: 8px;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .terms {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .terms a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .login-link a {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="toast" class="toast">
+        <span id="toast-text">提示信息</span>
+    </div>
+
+    <div class="register-container">
+        <div class="brand-header">
+            <img src="https://xiehouma.com/assets/logo_108.3d12caea.png" alt="邂逅码 Logo" class="brand-icon">
+            <h1 class="brand-title">邂逅码</h1>
+        </div>
+
+        <form onsubmit="event.preventDefault();">
+            <div class="form-group">
+                <label class="form-label" for="nickname">用户名</label>
+                <input type="text" id="nickname" class="form-input" placeholder="设置你的用户名" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="phone">手机号码</label>
+                <input type="tel" id="phone" class="form-input" maxlength="11" placeholder="请输入11位手机号" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="code">验证码</label>
+                <div class="captcha-group">
+                    <input type="text" id="code" class="form-input" placeholder="请输入验证码" required>
+                    <button type="button" id="btn-code" class="btn-send-code">获取验证码</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">密码</label>
+                <input type="password" id="password" class="form-input" placeholder="设置 8-16 位登录密码" required>
+            </div>
+
+            <button type="submit" class="btn-submit">立即注册</button>
+        </form>
+
+        <p class="terms">
+            注册即代表您同意 <a href="#">服务条款</a> 和 <a href="#">隐私政策</a>
+        </p>
+
+        <div class="login-link">
+            已有账号？<a href="#">直接登录</a>
+        </div>
+    </div>
+
+    <script>
+        const phoneInput = document.getElementById('phone');
+        const codeBtn = document.getElementById('btn-code');
+        const toast = document.getElementById('toast');
+        const toastText = document.getElementById('toast-text');
+
+        let isCounting = false; // 是否处于倒计时中
+
+        // 严格匹配 1 开头的 11 位手机号
+        function isValidPhone(phone) {
+            return /^1\d{10}$/.test(phone);
+        }
+
+        // 仅允许输入数字
+        phoneInput.addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+
+        // 弹出 Toast 悬浮框
+        function showToast(message, isError = false) {
+            toastText.textContent = message;
+            
+            if (isError) {
+                toast.classList.add('error');
+            } else {
+                toast.classList.remove('error');
+            }
+
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+
+        // 点击获取验证码按钮
+        codeBtn.addEventListener('click', () => {
+            // 如果正在倒计时，忽略点击
+            if (isCounting) return;
+
+            const phoneVal = phoneInput.value;
+
+            // 校验手机号格式，不正确则提示并拦截
+            if (!isValidPhone(phoneVal)) {
+                showToast('请填写正确的手机号码', true);
+                return;
+            }
+
+            // 格式正确，开启倒计时及加载动画
+            isCounting = true;
+            codeBtn.classList.add('counting');
+            codeBtn.innerHTML = '<div class="spinner"></div>';
+
+            // 模拟发送请求（转圈 1 秒）
+            setTimeout(() => {
+                // 完整显示手机号（不打码）
+                showToast(`验证码已发送至 ${phoneVal}`, false);
+
+                let countdown = 60;
+                codeBtn.textContent = `${countdown}s 后重试`;
+
+                const timer = setInterval(() => {
+                    countdown--;
+                    if (countdown > 0) {
+                        codeBtn.textContent = `${countdown}s 后重试`;
+                    } else {
+                        clearInterval(timer);
+                        isCounting = false;
+                        codeBtn.classList.remove('counting');
+                        codeBtn.textContent = '重新获取';
+                    }
+                }, 1000);
+
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
