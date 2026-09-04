@@ -928,7 +928,7 @@
             const windowHeight = window.innerHeight;
 
             const currentProgress = (windowHeight - rect.top) / (rect.height + windowHeight);
-            const clampedProgress = Math.max(0, Math.min(1, currentProgress * 2.1));
+            const clampedProgress = Math.max(0, Math.min(1, currentProgress * 1.8));
             const activeIndex = Math.floor(clampedProgress * words.length);
 
             words.forEach((word, index) => {
